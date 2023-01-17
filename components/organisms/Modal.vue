@@ -14,12 +14,12 @@
                 <input type="text" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Categoria">
 
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="this.form.type === 'recipe' ? 'bg-emerald-600' : 'bg-zinc-900'" @click="defineTransactionType('recipe')">
+                    <div class="px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="form.type === 'recipe' ? 'bg-emerald-600' : 'bg-zinc-900'" @click="defineTransactionType('recipe')">
                         <img src="../../assets/images/recipe.svg" alt="Seta apontando para cima na cor verde">
                         <span class="text-zinc-100">Entada</span>
                     </div>
 
-                    <div class="bg-zinc-900 px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="this.form.type === 'expense' ? 'bg-red-600' : 'bg-zinc-900'" @click="defineTransactionType('expense')">
+                    <div class="bg-zinc-900 px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="form.type === 'expense' ? 'bg-red-600' : 'bg-zinc-900'" @click="defineTransactionType('expense')">
                         <img src="../../assets/images/expense.svg" alt="Seta apontando para cima na cor verde">
                         <span class="text-zinc-100">Saída</span>
                     </div>

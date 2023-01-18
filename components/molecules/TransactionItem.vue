@@ -10,18 +10,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 
-interface TransactionProps {
-    description : string,
-    amount : number
-    category : string,
-    type : 'recipe' | 'expense',
-    date : string
-}
+import {Transaction } from '@/models'
 
 export default defineComponent({
     props: {
         transaction : {
-            type: Object as PropType<TransactionProps>,
+            type: Object as PropType<Transaction>,
             required : true
         }
     },

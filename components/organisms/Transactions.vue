@@ -1,9 +1,8 @@
 <template>
     <Container>
         <Search />
-
-        <ul class="pt-6">
-            <li v-for="(transaction, index) in transactionsList" :key="index">
+        <ul class="pt-6 flex flex-col gap-2">
+            <li v-for="(transaction, index) in transactions" :key="index">
                 <transaction-item :transaction="transaction"/>
             </li>
         </ul>
@@ -14,20 +13,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { useTransactionStore } from '@/store/Transaction'
+import { Transaction } from '@/models'
 
 
-export default defineComponent({
-    data() {
+export default {
+    setup() {
+    const store = useTransactionStore()
+
+    return { store }
+    },
+
+    data(){
         return {
-            transactionsList : [
-                {description : 'Desenvolvimento de site', amount: 12000, category: 'venda', type: 'recipe', date:"22/04/2022"}
-            ]
+            transactions : []
         }
-    }
-})
+    },
+    computed: {
+        transactions(): Transaction[] {
+            return this.store.all
+        },
+    },
+}
 </script>
-
-<style scoped>
-
-</style>

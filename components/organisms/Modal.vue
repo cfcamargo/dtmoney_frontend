@@ -9,9 +9,9 @@
             </header>
 
             <form @submit.prevent="$emit('createNewTransaction', form)" class="flex flex-col gap-3 mt-6">
-                <input type="text" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Descrição">
-                <input type="text" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Preço">
-                <input type="text" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Categoria">
+                <input type="text" v-model="form.description" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Descrição">
+                <input type="number" v-model="form.amount" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Preço">
+                <input type="text" v-model="form.category" class="bg-zinc-900 text-zinc-400 rounded border-none focus:outline-emerald-600 focus:ring-emerald-600 w-full p-4" placeholder="Categoria">
 
                 <div class="grid grid-cols-2 gap-2">
                     <div class="px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="form.type === 'recipe' ? 'bg-emerald-600' : 'bg-zinc-900'" @click="defineTransactionType('recipe')">
@@ -19,7 +19,7 @@
                         <span class="text-zinc-100">Entada</span>
                     </div>
 
-                    <div class="bg-zinc-900 px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="form.type === 'expense' ? 'bg-red-600' : 'bg-zinc-900'" @click="defineTransactionType('expense')">
+                    <div class="px-6 py-4 flex gap-2 items-center justify-center rounded cursor-pointer" :class="form.type === 'expense' ? 'bg-red-600' : 'bg-zinc-900'" @click="defineTransactionType('expense')">
                         <img src="../../assets/images/expense.svg" alt="Seta apontando para cima na cor verde">
                         <span class="text-zinc-100">Saída</span>
                     </div>
@@ -35,9 +35,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent} from 'vue'
-
-export default defineComponent({
+export default ({
     props : {
         isOpen : {
             type : Boolean,
@@ -50,19 +48,31 @@ export default defineComponent({
                 description: '',
                 amount : '',
                 category: '',
-                type : ''
+                type : '',
+                date: new Date().toLocaleDateString().split('/').join('-')
             },
         }
     },
     methods: {
-        defineTransactionType( type : string){
-            if(type === this.form.type){
+        defineTransactionType( value : string){
+            if(value === this.form.type){
                 this.form.type = ''
             } else {
-                this.form.type = type
+                this.form.type = value
             }
         },
 
-    }
+    },
+    watch: {
+        isOpen() {
+            this.form = {
+                description: '',
+                amount : '',
+                category: '',
+                type : '',
+                date: new Date().toLocaleDateString().split('/').join('-')
+            }
+        }
+    },
 })
 </script>

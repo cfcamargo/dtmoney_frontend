@@ -10,37 +10,36 @@
             </div>
         </Container>
         <transition enter-active-class="animate__animated animate__fadeIn" leave-active-class="animate__animated animate__fadeOut">
-            <Modal :isOpen="isOpen" @createNewTransaction='saveNewTransaction' @closeModal="cancelCreateNewTransaction"/>
+            <Modal :isOpen="isOpen" @createNewTransaction='saveNewTransaction($event)' @closeModal="cancelCreateNewTransaction"/>
         </transition>
     </header>
 </template>
 
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { useTransactionStore } from '@/store/Transaction'
+import { Transaction } from '@/models'
 
 
-interface NewTransactionForm {
-    description : string,
-    amount : number,
-    type: string
-    category : string
-}
-
-export default defineComponent({
+export default ({
+    setup() {
+        const store = useTransactionStore()
+        return { store }
+    },
     data() {
         return {
             isOpen : false
         }
     },
     methods: {
-        saveNewTransaction(form : NewTransactionForm ){
-            console.log(form)
+        saveNewTransaction(form : Transaction ){
+            this.store.createTransaction(form)
+            this.store.loadDashboard()
             this.isOpen = false
         },
         cancelCreateNewTransaction() {
             this.isOpen = false
         }
-    }
+    },
 })
 </script>

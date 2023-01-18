@@ -12,3 +12,7 @@
 html {
     background-color: #202024;
 }
+
+body {
+    overflow-x: hidden;
+}

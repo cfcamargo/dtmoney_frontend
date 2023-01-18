@@ -3,7 +3,7 @@
         <span class="w-2/4 text-zinc-100">{{transaction.description}}</span>
         <span class="flex-1 text-zinc-100" :class="transaction.type === 'recipe' ? 'text-emerald-600': 'text-red-600'">{{transformAmount}}</span>
         <span class="flex-1 text-zinc-100">{{transaction.category}}</span>
-        <span class="flex-1 text-zinc-100">{{transaction.date}}</span>
+        <span class="flex-1 text-zinc-100">{{transformDate}}</span>
     </div>
 </template>
 
@@ -24,8 +24,13 @@ export default defineComponent({
             let value = this.transaction.amount
             let transformed = value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
             return transformed
+        },
+        transformDate(): string {
+            let value: any = this.transaction.date
+            let transformedDate = new Date(value).toLocaleDateString()
+            return transformedDate
         }
-    }
+    },
 
 })
 </script>

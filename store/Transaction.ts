@@ -1,9 +1,16 @@
 import { defineStore } from 'pinia'
 import { Transaction } from '@/models'
+import { api as axios } from '@/services/api'
 
 
 interface DashboardData {
   description : string, ico: string, amount : number
+}
+
+interface Toastify {
+  type : 'error' | 'success',
+  show : boolean,
+  message : 'string'
 }
 
 export const useTransactionStore = defineStore('transactions', {
@@ -13,11 +20,26 @@ export const useTransactionStore = defineStore('transactions', {
       {description : 'Entradas', ico: 'recipe', amount: 0},
       {description : 'Saídas', ico: 'expense', amount: 0},
       {description : 'Total', ico: 'money', amount: 0},
-    ] as DashboardData[]
+    ] as DashboardData[],
+
+    loading : false,
+    modalOpen : false,
+
+    toastNotification : {
+      type : 'succes',
+      show : false,
+      message : ''
+    }
   }),
   actions: {
-    loadTransactions() {
-      this.transactions = [{description: 'Criação de site', amount: 15000, category: 'Venda', type: 'recipe', date: '12-04-2022'}]
+    async loadTransactions() {
+      this.loading = true
+      await axios.get('/transactions')
+      .then(response => {
+        this.transactions = response.data
+        this.loadDashboard()
+        this.loading = false
+      })
     },
 
     loadDashboard() {
@@ -39,18 +61,53 @@ export const useTransactionStore = defineStore('transactions', {
      this.cardsData[2].amount = total
     },
 
-    createTransaction(transaction : Transaction){
-      this.transactions.push(transaction)
-    }
+    async createTransaction(transaction : Transaction){
+      this.loading = true
+      await axios.post('/transactions', transaction)
+      .then(response => {
+        if(response.status === 200){
+          this.loading = false
+          this.toggleModal()
+          this.transactions.push(transaction)
 
+          this.toastNotification.message = 'Transação cadastrada com sucesso'
+          this.toastNotification.type = 'success'
+          this.toastNotification.show = true
+
+          this.loadDashboard()
+
+          this.showToast()
+        }
+      })
+    },
+
+    showToast(){
+      setTimeout(() => {
+        this.toastNotification.show = false
+      }, 5000)
+    },
+
+    toggleModal(){
+      this.modalOpen = !this.modalOpen
+    }
   },
   getters: {
-    all(state):Transaction[] {
+    $all(state):Transaction[] {
       return state.transactions
     },
-    dashboardData(state): DashboardData[] {
+    $dashboardData(state): DashboardData[] {
       return state.cardsData
     },
+    $loading(state){
+      return state.loading
+    },
+    $modalOpen(state){
+      return state.modalOpen
+    },
+
+    $toast(state){
+      return state.toastNotification
+    }
 
 
   },

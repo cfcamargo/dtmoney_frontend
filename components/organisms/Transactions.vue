@@ -1,7 +1,10 @@
 <template>
     <Container>
         <Search @searchTransactions="searchTransactions($event)"/>
-        <ul class="pt-6 flex flex-col gap-2">
+        <div v-if="loading" class="py-20 w-full flex justify-center">
+            <Loading :icon_width=30 :icon_heigth=30 />
+        </div>
+        <ul class="pt-6 flex flex-col gap-2" v-else>
             <li v-if="!filter" v-for="(transaction, index) in transactions" :key="index">
                 <transaction-item :transaction="transaction"/>
             </li>
@@ -9,11 +12,11 @@
                 <transaction-item :transaction="transaction"/>
 
             </li>
-            <li v-if="filter && filtered_transactions.length === 0" class="w-full py-4 flex items-center justify-center">
-                <span class="text-center text-zinc-300">Nada Encontrado...</span>
+            <li v-if="filter && filtered_transactions.length === 0 || !filter && transactions.length == 0" class="w-full py-4 flex items-center justify-center">
+                <span class="text-center text-zinc-500">Nada Encontrado.</span>
             </li>
         </ul>
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2" v-if="transactions.length > 20">
             <Paginator />
         </div>
     </Container>
@@ -22,13 +25,14 @@
 <script lang="ts">
 import { useTransactionStore } from '@/store/Transaction'
 import { Transaction } from '@/models'
+import { Loading } from '~~/.nuxt/components'
 
 
 export default {
     setup() {
-    const store = useTransactionStore()
+        const store = useTransactionStore()
 
-    return { store }
+        return { store }
     },
 
     data(){
@@ -49,8 +53,11 @@ export default {
     },
     computed: {
         transactions(): Transaction[] {
-            return this.store.all
+            return this.store.$all
         },
+        loading(): Boolean {
+            return this.store.$loading
+        }
     },
 }
 </script>

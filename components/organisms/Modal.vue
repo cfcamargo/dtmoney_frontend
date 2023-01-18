@@ -25,8 +25,9 @@
                     </div>
                 </div>
 
-                <button class="bg-emerald-600 text-white w-full px-5 py-3 flex items-center justify-center hover:bg-emerald-500 rounded">
-                    Cadastrar
+                <button class="bg-emerald-600 text-white w-full px-5 py-3 flex items-center justify-center hover:bg-emerald-500 rounded disabled:cursor-not-allowed hover:opacity-60" :disabled="loading">
+                    <span v-if="loading"><Loading /></span>
+                    <span v-else>Cadastrar</span>
                 </button>
 
             </form>
@@ -35,12 +36,12 @@
 </template>
 
 <script lang="ts">
+import { useTransactionStore } from '@/store/Transaction'
+
 export default ({
-    props : {
-        isOpen : {
-            type : Boolean,
-            required : true
-        }
+    setup() {
+        const store = useTransactionStore()
+        return { store }
     },
     data(){
         return {
@@ -62,6 +63,14 @@ export default ({
             }
         },
 
+    },
+    computed: {
+        loading() {
+            return this.store.$loading
+        },
+        isOpen() {
+            return this.store.$modalOpen
+        }
     },
     watch: {
         isOpen() {

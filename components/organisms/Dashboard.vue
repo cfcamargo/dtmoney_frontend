@@ -24,7 +24,7 @@ export default {
     },
     computed: {
         dashboard(){
-            return this.store.dashboardData
+            return this.store.$dashboardData
         },
     },
     created () {

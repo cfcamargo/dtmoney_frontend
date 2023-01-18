@@ -36,7 +36,7 @@ export default defineComponent({
         },
         changeTotalCardBg(){
             if(this.cardData.description === 'Total'){
-                return this.cardData.amount > 0 ? 'bg-emerald-600' : 'bg-red-600'
+                return this.cardData.amount >= 0 ? 'bg-emerald-600' : 'bg-red-600'
             } else {
                 return 'bg-zinc-700'
             }

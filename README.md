@@ -16,7 +16,7 @@
 
 <p>Essa aplicação foi disponibilizada no curso IGNITE da <a href="https://lp.rocketseat.com.br/ignite">RocketSeat</a>, no curso ela é feita utilizando o Framework ReactJS, porem como eu esto focando na stack do vue, reslvi desenvolver utilizando minhas stacks principais. Como mais um desafio, resolvi tambem testar pela primeira vez o Pinia para gerenciar os estados de minha aplicação no lugar do VUEX. O Vue js hoje recomenda o Pinia, e achei até mais interessante, e ate mais facil pra configurar no nuxt, e usar o typescript</p>
 
-<p>A aplicação possui tambem um <a href="">back-end</a>, que foi desenvolvido usando AdonisJS, com o MySQL como banco de dados. O back end é um CRUD simples, que cria, lista, edita e exclui os dados do banco. Estou no momento focado em me tornar um full stack, e com isso começei a estudar essa parte.</p>
+<p>A aplicação possui tambem um <a href="https://github.com/cfcamargo/dtmoney-backend">back-end</a>, que foi desenvolvido usando AdonisJS, com o MySQL como banco de dados. O back end é um CRUD simples, que cria, lista, edita e exclui os dados do banco. Estou no momento focado em me tornar um full stack, e com isso começei a estudar essa parte.</p>
 
 <br><br><br>
 
